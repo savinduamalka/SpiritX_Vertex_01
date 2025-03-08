@@ -1,15 +1,37 @@
 import React, { useState } from 'react';
 import '../App.css';
+import axios from 'axios';
+import { useNavigate } from 'react-router-dom';
 
 const Login: React.FC = () => {
-  const [email, setEmail] = useState('');
+  const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [rememberMe, setRememberMe] = useState(false);
   const [passwordVisible, setPasswordVisible] = useState(false); 
+  const navigate = useNavigate();
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    console.log({ email, password, rememberMe });
+    try {
+      const response = await axios.post(
+        `${import.meta.env.VITE_BACKEND_URL}/api/users/login`,
+        { username, password },
+        {
+          headers: {
+            "Content-Type": "application/json",
+          },
+        }
+      );
+      console.log("Login Successful:", response.data);
+      sessionStorage.setItem('username', username); // Store username in session
+      navigate("/landing"); // Navigate to landing page on success
+    } catch (error: any) {
+      if (error.response) {
+        console.error("Error:", error.response.data.message);
+      } else {
+        console.error("Error logging in:", error.message);
+      }
+    }
   };
 
   const togglePasswordVisibility = () => {
@@ -23,10 +45,10 @@ const Login: React.FC = () => {
         <form onSubmit={handleSubmit}>
           <div className="form-group">
             <input
-              type="email"
-              placeholder="Email Address"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
+              type="text"
+              placeholder="Username"
+              value={username}
+              onChange={(e) => setUsername(e.target.value)}
               required
             />
           </div>
