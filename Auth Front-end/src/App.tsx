@@ -1,3 +1,4 @@
+
 import React from 'react';
 import { Routes, Route, Navigate } from 'react-router-dom';
 import SignUp from './components/SignUp';
@@ -14,3 +15,4 @@ const App: React.FC = () => {
 };
 
 export default App;
+
