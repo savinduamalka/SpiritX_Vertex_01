@@ -1,8 +1,10 @@
 import React, { useState } from "react";
 import { FaEye, FaEyeSlash } from "react-icons/fa";
 import axios from "axios";
-import natureImage from "../assets/images/nature.png";
+import natureImage from "../assets/images/new.jpg";
 import { useNavigate } from "react-router-dom";
+import Alert from '@mui/material/Alert';
+import Snackbar from '@mui/material/Snackbar';
 
 const SignUp: React.FC = () => {
   const [formData, setFormData] = useState({
@@ -12,6 +14,7 @@ const SignUp: React.FC = () => {
   });
   const [passwordVisible, setPasswordVisible] = useState(false);
   const [confirmPasswordVisible, setConfirmPasswordVisible] = useState(false);
+  const [alert, setAlert] = useState<{ message: string; severity: 'success' | 'error' | 'info' | 'warning' } | null>(null);
   const navigate = useNavigate();
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -24,6 +27,11 @@ const SignUp: React.FC = () => {
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+    if (formData.password !== formData.confirmPassword) {
+      setAlert({ message: "Passwords do not match", severity: "error" });
+      return;
+    }
+
     try {
       const response = await axios.post(
         `${import.meta.env.VITE_BACKEND_URL}/api/users/signup`,
@@ -35,14 +43,23 @@ const SignUp: React.FC = () => {
         }
       );
       console.log("Form Data Submitted:", response.data);
-      navigate("/login"); // Navigate to login page on success
+      setAlert({ message: "Signup Successful", severity: "success" });
+      setTimeout(() => {
+        navigate("/login"); // Navigate to login page on success
+      }, 2000); // Delay navigation to allow alert to be visible
     } catch (error: any) {
       if (error.response) {
         console.error("Error:", error.response.data.message);
+        setAlert({ message: error.response.data.message, severity: "error" });
       } else {
         console.error("Error submitting form data:", error.message);
+        setAlert({ message: "Error submitting form data", severity: "error" });
       }
     }
+  };
+
+  const handleClose = () => {
+    setAlert(null);
   };
 
   return (
@@ -120,6 +137,13 @@ const SignUp: React.FC = () => {
           Already have an account? <a href="/login" className="underline">Login</a>
         </div>
       </div>
+      {alert && (
+        <Snackbar open={true} autoHideDuration={6000} onClose={handleClose}>
+          <Alert onClose={handleClose} severity={alert.severity} sx={{ width: '100%' }}>
+            {alert.message}
+          </Alert>
+        </Snackbar>
+      )}
     </div>
   );
 };

@@ -1,6 +1,6 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
-import natureImage from "../assets/images/nature.png";
+import natureImage from "../assets/images/new.jpg";
 
 const Landing: React.FC = () => {
   const navigate = useNavigate();

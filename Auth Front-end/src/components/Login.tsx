@@ -2,8 +2,10 @@ import React, { useState } from 'react';
 import '../App.css';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
-import natureImage from "../assets/images/nature.png";
+import natureImage from "../assets/images/new.jpg";
 import { FaEye, FaEyeSlash } from "react-icons/fa";
+import Alert from '@mui/material/Alert';
+import Snackbar from '@mui/material/Snackbar';
 
 const Login: React.FC = () => {
   const [username, setUsername] = useState('');
@@ -11,6 +13,7 @@ const Login: React.FC = () => {
   const [rememberMe, setRememberMe] = useState(false);
   const [passwordVisible, setPasswordVisible] = useState(false); 
   const [errors, setErrors] = useState<{ username?: string; password?: string }>({});
+  const [alert, setAlert] = useState<{ message: string; severity: 'success' | 'error' | 'info' | 'warning' } | null>(null);
   const navigate = useNavigate();
 
   const validate = () => {
@@ -23,7 +26,10 @@ const Login: React.FC = () => {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (!validate()) return;
+    if (!validate()) {
+      setAlert({ message: "Please fill in all fields", severity: "error" });
+      return;
+    }
 
     try {
       const response = await axios.post(
@@ -37,19 +43,25 @@ const Login: React.FC = () => {
       );
       console.log("Login Successful:", response.data);
       sessionStorage.setItem('username', username); // Store username in session
+      setAlert({ message: "Login Successful", severity: "success" });
       navigate("/landing"); // Navigate to landing page on success
     } catch (error: any) {
       if (error.response) {
         console.error("Error:", error.response.data.message);
-        setErrors({ ...errors, username: error.response.data.message });
+        setAlert({ message: error.response.data.message, severity: "error" });
       } else {
         console.error("Error logging in:", error.message);
+        setAlert({ message: "Error logging in", severity: "error" });
       }
     }
   };
 
   const togglePasswordVisibility = () => {
     setPasswordVisible(!passwordVisible);
+  };
+
+  const handleClose = () => {
+    setAlert(null);
   };
 
   return (
@@ -69,7 +81,6 @@ const Login: React.FC = () => {
               className="w-full p-3 bg-transparent border border-white border-opacity-30 rounded-lg focus:outline-none text-white placeholder-white placeholder-opacity-70"
               required
             />
-            {errors.username && <p className="text-red-500 text-sm">{errors.username}</p>}
           </div>
 
           <div className="relative">
@@ -91,7 +102,6 @@ const Login: React.FC = () => {
                 <FaEyeSlash className="text-white" size={20} />
               )}
             </div>
-            {errors.password && <p className="text-red-500 text-sm">{errors.password}</p>}
           </div>
 
           <div className="form-options">
@@ -113,6 +123,13 @@ const Login: React.FC = () => {
           <p>Don't have an account? <a href="/signup" className="underline">Sign Up</a></p>
         </div>
       </div>
+      {alert && (
+        <Snackbar open={true} autoHideDuration={6000} onClose={handleClose}>
+          <Alert onClose={handleClose} severity={alert.severity} sx={{ width: '100%' }}>
+            {alert.message}
+          </Alert>
+        </Snackbar>
+      )}
     </div>
   );
 };
