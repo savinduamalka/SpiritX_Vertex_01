@@ -65,3 +65,22 @@ The project uses MongoDB Atlas for the database. Ensure you have a MongoDB Atlas
 1. **Install Dependencies**:
    ```sh
    npm install
+
+2. **Run the Development Server**:
+sh
+   npm run dev
+   
+3. **Build the Project**:
+sh
+   npm run build
+   
+4. **Lint the Code**:
+sh
+   npm run lint
+   
+5. **Preview the Build**:
+sh
+   npm run preview
+   
+6. **Run the Backend Server**:
+   - Ensure you have a backend server running at `http://localhost:3001` as specified in the `.env` file.
