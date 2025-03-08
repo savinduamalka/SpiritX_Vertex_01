@@ -44,7 +44,7 @@ const Login: React.FC = () => {
       console.log("Login Successful:", response.data);
       sessionStorage.setItem('username', username); // Store username in session
       setAlert({ message: "Login Successful", severity: "success" });
-      navigate("/landing"); // Navigate to landing page on success
+      navigate("/landing"); 
     } catch (error: any) {
       if (error.response) {
         console.error("Error:", error.response.data.message);

@@ -25,8 +25,27 @@ const SignUp: React.FC = () => {
     });
   };
 
+  const validateUsername = (username: string) => {
+    return username.length >= 8;
+  };
+
+  const validatePassword = (password: string) => {
+    const hasLowercase = /[a-z]/.test(password);
+    const hasUppercase = /[A-Z]/.test(password);
+    const hasSpecialChar = /[!@#$%^&*(),.?":{}|<>]/.test(password);
+    return hasLowercase && hasUppercase && hasSpecialChar;
+  };
+
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+    if (!validateUsername(formData.username)) {
+      setAlert({ message: "Username must be at least 8 characters long", severity: "error" });
+      return;
+    }
+    if (!validatePassword(formData.password)) {
+      setAlert({ message: "Password must contain at least one lowercase letter, one uppercase letter, and one special character", severity: "error" });
+      return;
+    }
     if (formData.password !== formData.confirmPassword) {
       setAlert({ message: "Passwords do not match", severity: "error" });
       return;
@@ -45,8 +64,8 @@ const SignUp: React.FC = () => {
       console.log("Form Data Submitted:", response.data);
       setAlert({ message: "Signup Successful", severity: "success" });
       setTimeout(() => {
-        navigate("/login"); // Navigate to login page on success
-      }, 2000); // Delay navigation to allow alert to be visible
+        navigate("/login"); 
+      }, 2000); 
     } catch (error: any) {
       if (error.response) {
         console.error("Error:", error.response.data.message);
