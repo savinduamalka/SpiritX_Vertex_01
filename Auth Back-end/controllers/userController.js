@@ -1,5 +1,6 @@
 import mongoose from "mongoose";
 import User from "../models/userModel.js";
+import jwt from "jsonwebtoken";
 import { error } from "console";
 
 export const signup = async (req, res) => {
@@ -28,9 +29,37 @@ export const signup = async (req, res) => {
             return res.status(400).json({ message: "Username is already taken" });
         }
 
-        const newUser = new User({ username, password, confirmPassword });
+        const newUser = new User({ username, password });
         await newUser.save();
+
         res.status(201).json({ message: "User created successfully" });
+    } catch (err) {
+        res.status(500).json({ message: "Server error", error: err.message });
+    }
+};
+
+export const login = async (req, res) => {
+    const { username, password } = req.body;
+
+    if (!username || !password) {
+        return res.status(400).json({ message: "Username and password are required" });
+    }
+
+    try {
+        const user = await User.findOne({ username });
+        if (!user) {
+            return res.status(400).json({ message: "Invalid username or password" });
+        }
+
+        // Assuming a simple password comparison for demonstration purposes
+        if (user.password !== password) {
+            return res.status(400).json({ message: "Invalid username or password" });
+        }
+
+        // Generate JWT token
+        const token = jwt.sign({ id: user._id, username: user.username }, process.env.JWT_SECRET, { expiresIn: '1h' });
+
+        res.status(200).json({ message: "Login successful", token });
     } catch (err) {
         res.status(500).json({ message: "Server error", error: err.message });
     }
