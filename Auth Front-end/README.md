@@ -1,54 +1,46 @@
-# React + TypeScript + Vite
-
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
-
-Currently, two official plugins are available:
-
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
-
-## Expanding the ESLint configuration
-
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
-
-```js
-export default tseslint.config({
-  extends: [
-    // Remove ...tseslint.configs.recommended and replace with this
-    ...tseslint.configs.recommendedTypeChecked,
-    // Alternatively, use this for stricter rules
-    ...tseslint.configs.strictTypeChecked,
-    // Optionally, add this for stylistic rules
-    ...tseslint.configs.stylisticTypeChecked,
-  ],
-  languageOptions: {
-    // other options...
-    parserOptions: {
-      project: ['./tsconfig.node.json', './tsconfig.app.json'],
-      tsconfigRootDir: import.meta.dirname,
-    },
-  },
-})
 ```
+## Additional Implementations or Functionalities
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+### Front-End
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
+1. **MUI Alerts for User Feedback**:
+   - MUI alerts are used to provide user feedback for validation errors and successful actions.
 
-export default tseslint.config({
-  plugins: {
-    // Add the react-x and react-dom plugins
-    'react-x': reactX,
-    'react-dom': reactDom,
-  },
-  rules: {
-    // other rules...
-    // Enable its recommended typescript rules
-    ...reactX.configs['recommended-typescript'].rules,
-    ...reactDom.configs.recommended.rules,
-  },
-})
-```
+2. **Password Visibility Toggle**:
+   - Custom password visibility toggle buttons are implemented for both the password and confirm password fields.
+
+3. **Session Management**:
+   - Basic session management is implemented to keep the user logged in until they click the “Logout” button on the landing page.
+
+4. **Password Strength Indicator**:
+   - A password strength indicator is implemented that dynamically updates based on password complexity.
+
+## Commands to Run the Code
+
+1. **Install Dependencies**:
+   ```sh
+   npm install
+   ```
+
+2. **Run the Development Server**:
+   ```sh
+   npm run dev
+   ```
+
+3. **Build the Project**:
+   ```sh
+   npm run build
+   ```
+
+4. **Lint the Code**:
+   ```sh
+   npm run lint
+   ```
+
+5. **Preview the Build**:
+   ```sh
+   npm run preview
+   ```
+
+6. **Run the Backend Server**:
+   - Ensure you have a backend server running at `http://localhost:3001` as specified in the `.env` file.
