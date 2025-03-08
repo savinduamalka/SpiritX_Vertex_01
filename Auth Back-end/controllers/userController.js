@@ -1,7 +1,7 @@
 import mongoose from "mongoose";
 import User from "../models/userModel.js";
 import jwt from "jsonwebtoken";
-import { error } from "console";
+import bcrypt from "bcrypt";
 
 export const signup = async (req, res) => {
     const { username, password, confirmPassword } = req.body;
@@ -29,7 +29,11 @@ export const signup = async (req, res) => {
             return res.status(400).json({ message: "Username is already taken" });
         }
 
-        const newUser = new User({ username, password });
+        // Hash the password before saving
+        const saltRounds = 10;
+        const hashedPassword = await bcrypt.hash(password, saltRounds);
+
+        const newUser = new User({ username, password: hashedPassword });
         await newUser.save();
 
         res.status(201).json({ message: "User created successfully" });
@@ -51,8 +55,9 @@ export const login = async (req, res) => {
             return res.status(400).json({ message: "Invalid username or password" });
         }
 
-        // Assuming a simple password comparison for demonstration purposes
-        if (user.password !== password) {
+        // Compare the hashed password
+        const isMatch = await bcrypt.compare(password, user.password);
+        if (!isMatch) {
             return res.status(400).json({ message: "Invalid username or password" });
         }
 
