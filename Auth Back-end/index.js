@@ -1,6 +1,7 @@
 import express from "express";
 import dotenv from "dotenv";
 import mongoose from "mongoose";
+import userRouter from "./routes/userRoutes.js";
 
 dotenv.config();
 
@@ -8,6 +9,7 @@ const app = express();
 const PORT = process.env.PORT || 3001;
 
 app.use(express.json());
+app.use('/api/users', userRouter);
 
 mongoose.connect(process.env.MONGO_URL, {
     useNewUrlParser: true,
