@@ -67,6 +67,7 @@ The project uses MongoDB Atlas for the database. Ensure you have a MongoDB Atlas
    npm install
 
 2. **Run the Development Server**:
+<<<<<<< HEAD
    ```sh
    npm run dev
    
@@ -80,6 +81,21 @@ The project uses MongoDB Atlas for the database. Ensure you have a MongoDB Atlas
    
 5. **Preview the Build**:
    ```sh
+=======
+sh
+   npm run dev
+   
+3. **Build the Project**:
+sh
+   npm run build
+   
+4. **Lint the Code**:
+sh
+   npm run lint
+   
+5. **Preview the Build**:
+sh
+>>>>>>> 23486e03863042a41d91b710ba5fdf2d7c75af8f
    npm run preview
    
 6. **Run the Backend Server**:
