@@ -1,11 +1,9 @@
-/* Add this to your App.css file - These styles can be used for both login and signup pages */
-
 .auth-container {
     display: flex;
     justify-content: center;
     align-items: center;
     min-height: 100vh;
-    background-image: url('./assets/green-background1.jpg');
+    background-image: url('./assets/images/nature.jpg');
     background-size: cover;
     background-position: center;
     padding: 20px;

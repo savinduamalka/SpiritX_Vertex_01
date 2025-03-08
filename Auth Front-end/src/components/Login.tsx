@@ -1,11 +1,11 @@
 import React, { useState } from 'react';
-import './App.css';
+import '../App.css';
 
 const Login: React.FC = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [rememberMe, setRememberMe] = useState(false);
-  const [passwordVisible, setPasswordVisible] = useState(false); // New state
+  const [passwordVisible, setPasswordVisible] = useState(false); 
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -33,14 +33,14 @@ const Login: React.FC = () => {
 
           <div className="form-group">
             <input
-              type={passwordVisible ? 'text' : 'password'} // Toggle type
+              type={passwordVisible ? 'text' : 'password'} 
               placeholder="Password"
               value={password}
               onChange={(e) => setPassword(e.target.value)}
               required
             />
-            <span className="password-toggle" onClick={togglePasswordVisibility}> {/* Add onClick */}
-              <i className={`fa ${passwordVisible ? 'fa-eye-slash' : 'fa-eye'}`}></i> {/* Toggle icon */}
+            <span className="password-toggle" onClick={togglePasswordVisibility}>
+              <i className={`fa ${passwordVisible ? 'fa-eye-slash' : 'fa-eye'}`}></i> 
             </span>
           </div>
 
