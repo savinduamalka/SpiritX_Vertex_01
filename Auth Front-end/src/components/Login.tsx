@@ -12,7 +12,7 @@ const Login: React.FC = () => {
   const [password, setPassword] = useState('');
   const [rememberMe, setRememberMe] = useState(false);
   const [passwordVisible, setPasswordVisible] = useState(false); 
-  const [errors, setErrors] = useState<{ username?: string; password?: string }>({});
+  const [, setErrors] = useState<{ username?: string; password?: string }>({});
   const [alert, setAlert] = useState<{ message: string; severity: 'success' | 'error' | 'info' | 'warning' } | null>(null);
   const navigate = useNavigate();
 
