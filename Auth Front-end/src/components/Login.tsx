@@ -34,9 +34,21 @@ const Login: React.FC = () => {
       return;
     }
 
+    const backendUrl = import.meta.env.VITE_BACKEND_URL as string | undefined;
+    if (!backendUrl) {
+      setAlert({
+        message:
+          'Backend URL is not configured. Set VITE_BACKEND_URL in your environment (Vercel Project > Settings > Environment Variables).',
+        severity: 'error',
+      });
+      return;
+    }
+
     try {
+      // Ensure no trailing slash so we don't end up with double slashes
+      const normalized = backendUrl.replace(/\/+$/, '');
       const response = await axios.post(
-        `${import.meta.env.VITE_BACKEND_URL}/api/users/login`,
+        `${normalized}/api/users/login`,
         { username, password },
         {
           headers: {
